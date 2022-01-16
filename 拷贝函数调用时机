@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+//拷贝构造函数的调用时机
+//1.使用一个已经创建完毕的对象来初始化一个新对象
+//2.值传递的方式给函数参数传值
+//3.值方式返回局部对象
+
+class Person {
+public:
+	int m_Age;
+
+public:
+	Person() {
+		cout << "Person默认构造函数调用" << endl;
+	}
+
+	Person(int age) {
+		cout << "Person有参构造函数调用" << endl;
+		m_Age = age;
+	}
+
+	Person(const Person& p) {
+		cout << "Person拷贝构造函数调用" << endl;
+		m_Age = p.m_Age;
+	}
+
+	~Person() {
+		cout << "Person析构构造函数调用" << endl;
+	}
+
+};
+
+//1.使用一个已经创建完毕的对象来初始化一个新对象
+void test01() {
+	Person p1(20);
+	Person p2(p1);
+}
+
+//2.值传递的方式给函数参数传值
+void doWork(Person p) {  //调用时相当于做了Person p = p，复制了一份过来，是值传递
+
+}
+
+void test02() {
+	Person p;
+	doWork(p); //值传递不会改变p本身的属性
+}
+
+//3.值方式返回局部对象
+Person doWork2() {  //返回时会创建一个新副本，而不是返回p1
+	Person p1;
+	return p1;
+}
+
+void test03() {
+	Person p = doWork2();
+}
+
+int main() {
+//	test01();
+//	test02();
+	test03();
+	return 0;
+}
