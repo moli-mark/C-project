@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person {
+public:
+	Person(int age) {
+		//this指针指向被调用的成员函数所属的对象
+		this->age = age;
+	}
+
+	//这里如果不返回引用的话就会创建一个和p2值一样的新对象，后面进行的操作就不会改变p2的值了
+	//而返回引用的话相当于返回了p2的一个别名，后面对这个别名进行操作会改变p2的值
+	Person& PersonAddAge(Person& p) {
+		this->age += p.age;
+		return *this;
+	}
+
+	int age;
+};
+
+//1.解决名称冲突
+void test01() {
+	Person p1(18);
+	cout << "p1的年龄为：" << p1.age << endl;
+}
+
+//2.返回对象本身用*this
+void test02() {
+	Person p1(10);
+	Person p2(20);
+
+	//链式编程思想
+	p2.PersonAddAge(p1).PersonAddAge(p1).PersonAddAge(p1);
+
+	cout << "p2的年龄为：" << p2.age << endl;
+}
+
+int main() {
+	test01();
+	test02();
+}
