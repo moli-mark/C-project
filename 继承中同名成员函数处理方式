@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+//继承中同名成员处理方式
+
+class Base {
+public:
+	Base() {
+		m_A = 100;
+	}
+	int m_A;
+
+	void func() {
+		cout << "Base中func()调用" << endl;
+	}
+
+	void func(int a) {
+		cout << "Base中func(int a)调用" << endl;
+	}
+};
+
+class Son:public Base {
+public:
+	Son() {
+		m_A = 200;
+	}
+	int m_A;
+
+	void func() {
+		cout << "Son中func()调用" << endl;
+	}
+};
+
+//同名成员属性处理
+void test01() {
+	Son son;
+	cout << "Son 下 m_A =" << son.m_A << endl;
+	//如果通过子类对象访问到父类中同名成员，需要加一个作用域
+	cout << "Base 下 m_A =" << son.Base::m_A << endl;
+}
+
+//同名成员函数处理
+void test02() {
+	Son son;
+	son.Base::func();
+	//如果子类中出现和父类同名的成员函数，子类的同名成员会隐藏掉父类中所有同名函数
+	//如果想访问到父类中被隐藏的同名成员函数，需要加作用域
+	//son.func(100);  报错
+	son.Base::func(100);
+}
+
+int main() {
+	test01();
+	test02();
+}
